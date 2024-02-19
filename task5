@@ -1,56 +1,39 @@
-class Quiz:
-    def __init__(self, questions):
-        self.questions = questions
-        self.score = 0
+class Question:
+    def __init__(self, prompt, answer):
+        self.prompt = prompt
+        self.answer = answer
 
-    def display_welcome_message(self):
-        print("Welcome to the Quiz Game!")
-        print("You will be presented with a series of multiple-choice questions.")
-        print("Let's see how well you know the topic!")
+# Define the quiz questions
+questions = [
+    Question("What is the capital of France?\n(a) Paris\n(b) Madrid\n(c) Rome\n\n", "a"),
+    Question("Who wrote 'Romeo and Juliet'?\n(a) William Shakespeare\n(b) Charles Dickens\n(c) Jane Austen\n\n", "a"),
+    Question("What is the chemical symbol for water?\n(a) H2O\n(b) CO2\n(c) O2\n\n", "a"),
+    Question("What is the largest planet in our solar system?\n(a) Earth\n(b) Jupiter\n(c) Mars\n\n", "b")
+]
 
-    def present_quiz_questions(self):
-        for idx, question in enumerate(self.questions, 1):
-            print(f"\nQuestion {idx}: {question['question']}")
-            for choice_idx, choice in enumerate(question['choices'], 1):
-                print(f"{choice_idx}. {choice}")
-
-            user_answer = input("Enter your answer (1, 2, 3, 4): ")
-            if user_answer == str(question['correct_answer']):
-                print("Correct!")
-                self.score += 1
-            else:
-                print("Incorrect!")
-                print(f"The correct answer is: {question['choices'][question['correct_answer'] - 1]}")
-
-    def display_final_results(self):
-        print("\nQuiz Completed!")
-        print(f"Your final score is: {self.score}/{len(self.questions)}")
-        percentage = (self.score / len(self.questions)) * 100
-        print(f"You got {percentage:.2f}% of the questions correct.")
+def run_quiz(questions):
+    score = 0
+    for question in questions:
+        answer = input(question.prompt).lower()
+        if answer == question.answer:
+            print("Correct!")
+            score += 1
+        else:
+            print("Incorrect. The correct answer is:", question.answer)
+    print("You got", score, "out of", len(questions), "questions correct.")
 
 def main():
-    questions = [
-        {
-            "question": "What is the capital of France?",
-            "choices": ["London", "Paris", "Berlin", "Rome"],
-            "correct_answer": 2
-        },
-        {
-            "question": "What is the largest planet in our solar system?",
-            "choices": ["Mars", "Jupiter", "Venus", "Saturn"],
-            "correct_answer": 2
-        },
-        {
-            "question": "Who wrote 'Romeo and Juliet'?",
-            "choices": ["William Shakespeare", "Charles Dickens", "Jane Austen", "Mark Twain"],
-            "correct_answer": 1
-        }
-    ]
+    print("Welcome to the Quiz Game!")
+    print("You will be asked a series of multiple-choice questions.")
+    print("Please select the letter corresponding to your answer.")
 
-    quiz = Quiz(questions)
-    quiz.display_welcome_message()
-    quiz.present_quiz_questions()
-    quiz.display_final_results()
+    play_again = True
+    while play_again:
+        run_quiz(questions)
+        play_again_input = input("Do you want to play again? (yes/no): ").lower()
+        play_again = play_again_input == "yes"
+
+    print("Thank you for playing!")
 
 if __name__ == "__main__":
     main()
